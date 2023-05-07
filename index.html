@@ -5,57 +5,141 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles/useful-links.css">
+    <title>Catogram</title>
+    <link rel="stylesheet" href="styles/Catogram.css">
+    <link rel="shortcut icon" href="pictures/caticon.png" type="img/x-icon">
 </head>
 
 <body>
+    <header>
+        <h3 class="logo">Catogram</h3>
+    </header>
 
-    <!-- <a href="https://www.google.com" style="display: inline-block; text-align: center; width: 20%;">
-        <img src="pictures/google.png" alt="google-icon" style="height: 1em; vertical-align: text-top;">
-        Google
-    </a><a href="https://www.instagram.com" style="display: inline-block; text-align: center; width: 20%;">
-        <img src="pictures/instagram.png" alt="instagram-icon" style="height: 1em; vertical-align: text-top;">
-        Instagram
-    </a><a href="https://www.youtube.com" style="display: inline-block; text-align: center; width: 20%;">
-        <img src="pictures/youtube.png" alt="youtube-icon" style="height: 1em; vertical-align: text-top;">
-        YouTube
-    </a><a href="https://web.telegram.org" style="display: inline-block; text-align: center; width: 20%;">
-        <img src="pictures/telegram.png" alt="telegram-icon" style="height: 1em; vertical-align: text-top;">
-        Telegram
-    </a><a href="https://github.com" style="display: inline-block; text-align: center; width: 20%;">
-        <img src="pictures/github.png" alt="github-icon" style="height: 1em; vertical-align: text-top;">
-        Github
-    </a> -->
+    <main class="hidden">
+        <section class="details-section">
+            <div class="details-container">
+                <img src="pictures/cat1.jpg" alt="" class="details-image">
+                <span class="details-title">Yuki</span>
+                <button onclick="hideDetails()" class="hide-button">X</button>
+            </div>
+        </section>
+        <section class="thumbnails-section">
+            <ul class="thumbnails-list">
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat1.jpg"
+                        data-details-text="The most beautful cat">
+                        <img src="pictures/cat1.jpg" class="thumbnails-image">
+                        <span class="thumbnails-title">Yuki</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat2.jpeg"
+                        data-details-text="The most powerful cat">
+                        <img src="pictures/cat2.jpeg" class="thumbnails-image">
+                        <span class="thumbnails-title">Jutaro</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat3.jpg"
+                        data-details-text="The calmest cat">
+                        <img src="pictures/cat3.jpg" class="thumbnails-image">
+                        <span class="thumbnails-title">Raizo</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat4.jpg"
+                    data-details-text="The strongest cat">
+                        <img src="pictures/cat4.jpg" class="thumbnails-image">
+                        <span class="thumbnails-title">Kaku</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/nami.jpg"
+                    data-details-text="The rogue cat">
+                        <img src="pictures/nami.jpg" class="thumbnails-image">
+                        <span class="thumbnails-title">Nami</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat1.jpg"
+                        data-details-text="The most beautful cat">
+                        <img src="pictures/cat1.jpg" class="thumbnails-image">
+                        <span class="thumbnails-title">Yuki</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat2.jpeg"
+                        data-details-text="The most powerful cat">
+                        <img src="pictures/cat2.jpeg" class="thumbnails-image">
+                        <span class="thumbnails-title">Jutaro</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat3.jpg"
+                        data-details-text="The calmest cat">
+                        <img src="pictures/cat3.jpg" class="thumbnails-image">
+                        <span class="thumbnails-title">Raizo</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat4.jpg"
+                    data-details-text="The strongest cat">
+                        <img src="pictures/cat4.jpg" class="thumbnails-image">
+                        <span class="thumbnails-title">Kaku</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/nami.jpg"
+                    data-details-text="The rogue cat">
+                        <img src="pictures/nami.jpg" class="thumbnails-image">
+                        <span class="thumbnails-title">Nami</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat1.jpg"
+                        data-details-text="The most beautful cat">
+                        <img src="pictures/cat1.jpg" class="thumbnails-image">
+                        <span class="thumbnails-title">Yuki</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat2.jpeg"
+                        data-details-text="The most powerful cat">
+                        <img src="pictures/cat2.jpeg" class="thumbnails-image">
+                        <span class="thumbnails-title">Jutaro</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat3.jpg"
+                        data-details-text="The calmest cat">
+                        <img src="pictures/cat3.jpg" class="thumbnails-image">
+                        <span class="thumbnails-title">Raizo</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat4.jpg"
+                    data-details-text="The strongest cat">
+                        <img src="pictures/cat4.jpg" class="thumbnails-image">
+                        <span class="thumbnails-title">Kaku</span>
+                    </a>
+                </li>
+                <li class="thumbnails-item">
+                    <a href="#" class="thumbnails-anchor" data-datails-image="pictures/nami.jpg"
+                    data-details-text="The rogue cat">
+                        <img src="pictures/nami.jpg" class="thumbnails-image">
+                        <span class="thumbnails-title">Nami</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </section>
+    </main>
 
-    <a href="https://www.google.com" class="link">
-        <img src="pictures/google.png" alt="google-icon" class="link-image">
-        <label class="link-title">ggggg</label>
-    </a>
-    <a href="https://www.google.com" class="link">
-        <img src="pictures/google.png" alt="google-icon" class="link-image">
-        <label class="link-title">gg</label>
-    </a>
-    <a href="https://www.google.com" class="link">
-        <img src="pictures/google.png" alt="google-icon" class="link-image">
-        <label class="link-title">gggggggggggggggggggg</label>
-    </a>
-    <a href="https://www.google.com" class="link">
-        <img src="pictures/google.png" alt="google-icon" class="link-image">
-        <label class="link-title">gggggggggggg</label>
-    </a>
-    <a href="https://www.google.com" class="link">
-        <img src="pictures/google.png" alt="google-icon" class="link-image">
-        <label class="link-title">gggggggggggggggggggg</label>
-    </a>
+    <footer>
 
-    <!-- <div style="text-align: center;">
-        <span style="font-size: 2em; vertical-align: middle;">X</span>
-        <span>x</span>
-        <span style="font-size: 2em; vertical-align: middle;">Y</span>
-        <span style="vertical-align: top;">2</span>
-    </div> -->
+    </footer>
 
+    <script src="src/cats.js"></script>
 </body>
 
 </html>
