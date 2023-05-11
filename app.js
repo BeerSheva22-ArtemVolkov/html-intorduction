@@ -48,8 +48,6 @@ function yuriGetRandomIntNumber(min, max, minInclusive = true, maxInclusive = fa
     return min < max ? Math.trunc(min + Math.random() * (max - min)) : NaN;
 }
 
-
-
 function getOrderedList(array) {
     //returns HTML string of element <ol> with items from a given array elements
     //example : [1, 2, 3]
@@ -82,6 +80,6 @@ bodyID.innerHTML = getOrderedList(getArrayRandomIntNumbers(10, 0, 1, true, true)
 
 function getMatrixRandomIntNumbers(rows, columns, min, max) {
     const res = [];
-    res.length = rows; // устанавливаем длину массива
+    res.length = rows;
     return [...res].map(() => getArrayRandomIntNumbers(columns, min, max, true, true));
 }
