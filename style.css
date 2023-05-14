@@ -1,8 +1,9 @@
 ol {
-    list-style: none;
+    list-style: none; 
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0;
 }
 
 div {
@@ -11,12 +12,11 @@ div {
     border: 1px solid green;
 }
 
-/* li{
-    font-size: 50px;
-    width: 30px;
-    height: 30px;
-    border: 1px solid green;
-} */
+li {
+    width: 40px;
+    height: 40px;
+    border: solid 1px gray;
+}
 
 .black {
     background-color: black;
@@ -24,4 +24,9 @@ div {
 
 .white {
     background-color: white;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
 }

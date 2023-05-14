@@ -1,85 +1,78 @@
-const ar = []; // длина массива = 0
-ar[10] = 100; // длина массива = 11
-ar[0] = 'hello'; // установаить значение String
-ar[3] = true; // установаить значение Boolean
-ar[5] = []; // удаление элементов массива
-ar.forEach((i) => console.log(i));
+//splice method for updating array
+let arS = [10, 20, -70, 100, 6, -10, 0];
+const arI = [1, 2, 3];
 
-ar.length = 0; // стереть массив,установить длину = 0
-ar[0] = 1;
-[] && console.log(true); // пустой массив = true
-ar[ar.length] = 10; // добавление в конец массива
+let index = arS.indexOf(-70);
+arS.splice(index + 1, 0, ...arI);   // вставляет в массив значения из другого массива, начиная с индекса
+// 2ой параметр - количество удаляемых элементов
+console.log(arS);
+console.log(arS.splice(index + 1, 3)); // Удаляем вставленные элементы
+console.log(arS);
 
-const ar2 = [1, 2, 3];
-ar.push(ar2); // добавляет элемент(ы) в конец массива
-console.log(ar.length); // length = 3 тк был добавлен МАССИВ
-ar.push(...ar2); // добавление значений из массива
-console.log(ar.length); // length = 6 тк были добавлены ЗНАЧЕНИЯ МАССИВА
+arS.splice(index + 1, 0, ...arI);
+console.log(arS.slice(index + 1, index + 4)); // получить массив значений, не меняя исходный
+console.log(arS);
 
-// method MAP - Возвращает массив такой же размерности, но с преобразованными значениями
+let indexFirstNegative = arS.findIndex(v => v < 0); // возвращает первый индекс, удовлетворяющий условию
+console.log(index == indexFirstNegative);
 
-console.log([1, 2, 3].map(n => n ** 2)); // возведение в степень каждого элемента массива
+let newArr = arS.filter(el => el > 0); // возвращает новый массив, удовлетворяющий условию
+console.log(newArr);
 
-// функция, которая возвращает случаное целое число в диапазоне
-function getRandomIntNumber(min, max, minInclusive = true, maxInclusive = false) {
-    let res;
-    if (minInclusive) {
-        res = Math.floor(Math.random() * (max - min + maxInclusive - !minInclusive)) + min;
+console.log(arS.every(v => v > 0)); // возвращает true, если каждый элемент удовлетворяет условию
+console.log(arS.some(v => v < 0)); // возвращает true, если любой элемент удовлетворяет условию
+
+// HW
+function arrayCopy(srcArray, posSrc, destArray, posDest, length) {
+    //TODO 
+    // copy "length" elements from position "posSrc" of array "srcArray" to array "destArray" from "posDest"
+    // Заменяет существующие элементы
+    if (length != 0 && srcArray.length != 0 && destArray.length != 0){
+        destArray.splice(posDest, length, ...srcArray.slice(posSrc, posSrc + length));
     }
-    else {
-        res = Math.ceil(Math.random() * (max - min + maxInclusive - !minInclusive)) + min;
-    }
-    return min < max ? res : undefined;
+    return destArray;
 }
 
-function getArrayRandomIntNumbers(nNumbers, min, max, minInclusive = true, maxIclusive = false) {
-    const res = []; // Объявляем массив
-    res.length = nNumbers; // устанавливаем длину массива
-    return min < max ? ([...res].map(() => getRandomIntNumber(min, max, minInclusive, maxIclusive))) : undefined;
-}
-
-function yuriGetRandomIntNumber(min, max, minInclusive = true, maxInclusive = false) {
-    if (!minInclusive) {
-        min++;
+function moveElement(array, pos, shift) {
+    //TODO 
+    // перемещает элемент из "array" с позиции "pos" на "shift" позиций, но не дальше длины массива
+    // example: array = [1, 2, 3, 4, 5], pos = 2, shift = 1  =>  [1, 2, 4, 3, 5];
+    if (shift != 0 || pos >= 0 ) {
+        let elToMove = array.splice(pos, 1);
+        let newPos = pos + shift;
+        if (newPos < 0) {
+            newPos = 0;
+        } else if (newPos > array.length) {
+            newPos = array.length;
+        }
+        array.splice(newPos, 0, ...elToMove);
     }
-    if (maxInclusive) {
-        max++;
-    }
-    return min < max ? Math.trunc(min + Math.random() * (max - min)) : NaN;
+    return array;
 }
 
-function getOrderedList(array) {
-    //returns HTML string of element <ol> with items from a given array elements
-    //example : [1, 2, 3]
-    //output : "<ol><li>1</li><li>2</li><li>3</li></ol>"
+let ar1 = [1, 2, -1, 20, 134, -50, 10, 20, -70, 100, 6, -10, 0];
+let ar2 = [11, 21, -71, 101, 7, -11, 1];
 
-    // return Array.isArray(array) ? `<ol> ${array.map(num => `<li> ${getDiv(num)} </li>`).join('')} </ol>` : ''; // My
-    // return Array.isArray(array) ? `<ol> ${array.map(num => `<li class="${getDiv(num)}"></li>`).join('')} </ol>` : ''; // Lena
-    return Array.isArray(array) ? `<ol> ${getListItem(array)} </ol>` : ''; //Yuri
-}
+console.log(arrayCopy(ar1, 3, ar2, 6, 5));
+console.log(moveElement(ar1, 2, 4));
 
-function getListItem(array) {
-    let res = array.map(v => `<li style="width: 30px; height: 30px; border: solid 1px gray; background-color: ${v ? 'black' : 'white'}"</li>`);
-    return res.join('');
-}
+// 
 
-function getDiv(num) {
-    let res = num;
-    if (num == 0) {
-        // res = '<div style="background-color: white;"></div>'; // My
-        res = 'white';
-    }
-    else if (num == 1) {
-        // res = '<div style="background-color: black;"></div>'; // My
-        res = 'black';
+console.log(ar1.reduce((res, cur) => cur < res ? cur : res));
+
+// вернуть массив с помощью reduce где первый - min, второй - max
+
+console.log(ar1.reduce((res, cur) => {
+    if (res[0] > cur){
+        res[0] = cur;
+    } else if (res[1] < cur){
+        res[1] = cur;
     }
     return res;
-}
+}, [ar1[0], ar1[0]]));
 
-bodyID.innerHTML = getOrderedList(getArrayRandomIntNumbers(10, 0, 1, true, true));
+//
 
-function getMatrixRandomIntNumbers(rows, columns, min, max) {
-    const res = [];
-    res.length = rows;
-    return [...res].map(() => getArrayRandomIntNumbers(columns, min, max, true, true));
-}
+const ar10 = [2, 3, 123, 200, 99, -5];
+
+grades = grades.sort((x, y) => x - y); // по возрастанию
