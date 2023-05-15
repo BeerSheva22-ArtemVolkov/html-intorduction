@@ -5,33 +5,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Pick color game</title>
+    <link rel="stylesheet" href="styles/game.css">
 </head>
 
-<body id="bodyID">
-
-    <!-- <ol>
-        <li>
-            <ol class="row">
-                <li>a</li>
-                <li>b</li>
-                <li>a</li>
-                <li>b</li>
-            </ol>
-        </li>
-        <li>
-            <ol class="row">
-                <li>a</li>
-                <li>b</li>
-                <li>a</li>
-                <li>b</li>
-            </ol>
-        </li>
-    </ol> -->
-
-    <script src="chess.js"></script>
-
+<body>
+    <section class="input-class">
+        <input id="input-id">
+        <button id="goButton-id">GO</button>
+    </section>
+    <div id="square-id" class="square-class"></div>
+    <p id="gameResult-id"></p>
+    <button id="playAgainButton-id">play again</button>
+    <script src="src/game.js"></script>
 </body>
 
 </html>

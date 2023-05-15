@@ -1,0 +1,49 @@
+h1{
+    text-align: center;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    user-select: none;
+}
+
+.solution{
+    margin: 30px;
+    justify-content: center;
+    display: flex;
+}
+
+.letter{
+    width: 60px;
+    height: 60px;
+    border: 2px solid black;
+    text-align: center;
+    font-size: 60px;
+    margin: 2px;
+}
+
+#input-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#input-label-id{
+    margin-left: 15%;
+    margin-right: 5%;
+    width: 30%;
+}
+
+#enter-value-btn{
+    margin-left: 5%; 
+    margin-right: 5%;
+}
+
+#result-label-id{
+    font-size: 80px;
+    margin: 5%;
+    color: red;
+}
