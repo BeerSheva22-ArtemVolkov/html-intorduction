@@ -16,11 +16,12 @@ const main = document.querySelector("main");
 const HIDDEN = "hidden";
 const POINT = "point";
 
-for (let i = 0; i < thumbnailsAnchors.length; i++) {
-    thumbnailsAnchors[i].addEventListener("click", function () {
-        setDetails(thumbnailsAnchors[i]);
-    })
-}
+// for (let i = 0; i < thumbnailsAnchors.length; i++) {
+//     thumbnailsAnchors[i].addEventListener("click", function () {
+//         setDetails(thumbnailsAnchors[i]);
+//     })
+// }
+thumbnailsAnchors.forEach(anchor => anchor.addEventListener("click", setDetails.bind(undefined, anchor)))
 
 thumbnailsAnchors[0].addEventListener("", function(){
     detailsSection.classList.remove(POINT);
