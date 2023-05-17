@@ -1,54 +1,133 @@
-this.x = 100;
-// console.log(this);
+const rectangle = new Rectangle(3, 4); // new возвращает this этого объекта
 
-function f1() {
+function Rectangle(width, height) {
+
+    this.width = width;
+    this.height = height;
+}
+
+Rectangle.prototype.square = function () { // присваивам функцию square классу prototype
+    return this.width * this.height;
+}
+
+Rectangle.prototype.perimetr = function () {
+    return 2 * (this.width + this.height);
+}
+
+class RectangleNew {
+    #width; // приватное поле класса
+
+    constructor(width, height) {
+        this.#width = width;
+        this.height = height;
+    }
+
+    square() {
+        return this.#width * this.height;
+    }
+
+    perimetr() {
+        return 2 * (this.#width + this.height);
+    }
+}
+
+console.log(rectangle.square());
+
+// 
+
+class Square extends Rectangle {
+    constructor(width) {
+        super(width, width);
+    }
+
+}
+
+const square = new Square(5);
+console.log(square.square());
+
+Array.prototype.myForEach = function (func) {
+    for (i = 0; i < this.length; i++) {
+        func(this[i], i, this);
+    }
+}
+
+Array.prototype.myMap = function (func) {
+    for (i = 0; i < this.length; i++) {
+        this[i] = func(this[i], i, this);
+    }
     return this;
 }
-const f2 = () => {
-    return this;
+
+Array.prototype.myFilter = function (func) {
+    let res = [];
+    for (i = 0; i < this.length; i++) {
+        if (func(this[i], i, this)) {
+            res.push(this[i]);
+        }
+    }
+    return res;
 }
 
-// console.log('f1 call result', f1());
-// console.log('f2 call result', f2());
-// console.log((() => {console.log(this)}));
-
-const x = {
-    f1: function () {
-        return this;
-    },
-    f2: () => { return this }
+Array.prototype.myReduce = function (func, start) {
+    let res = start != undefined ? func(start, this[0]) : this[0];
+    for (i = 1; i < this.length; i++) {
+        res = func(res, this[i], i, this);
+    }
+    return res;
 }
 
-console.log(`x.f1 call result`, x.f1()); // передается "будто бы" x
-console.log(`x.f2 call result`, x.f2()); // у стрелочной функции нет своего this, поэтому берется глобальный
+const ar = [1, 2, 3];
 
-const rectangle = {
-    width: 20, height: 20, square: function () {
-        return this.width * this.height
-    }, perimeter: () => 2 * (this.width + this.height)
-};
+ar.myForEach(x => console.log(x));
 
-const rectangle2 = {
-    width: 20, height: 20, square: function () {
-        return this.width * this.height
-    }, perimeter: () => 2 * (this.width + this.height)
-};
+console.log("myMap:", ar.myMap(x => x * 2));
 
-console.log(`square = ${rectangle.square()}`);
-console.log(`perimeter = ${rectangle.perimeter()}`);
+console.log("myFilter:", ar.myFilter(x => x > 2));
 
-const point = { x: 3, y: 4 }
-function displayPoint(z, t) {
-    console.log(`x = ${this.x}, y = ${this.y}, z = ${z}, t = ${t}`);
+const ob = [
+    { id: 'abc' },
+    { id: 'abc' },
+    { id: 'abc' }
+]
+console.log(ar.myReduce((res, x) => res + x, 1));
+console.log(ob.myReduce((res, x) => res + x.id));
+console.log(ob.reduce((res, x) => res + x.id));
+
+//
+
+class Deferred {
+
+    arr = [];
+
+    resolve(str){
+        this.arr.forEach(func => str = func(str));
+    }
+
+    then(func){
+        this.arr.push(func)
+    }
 }
 
-const displayPoint1 = displayPoint.bind(point, 100, 200); // прикрепляет this к displayPoint и возвращает (НЕ ВЫЗЫВАЕТ) "копию" с привязанным аргументами
-displayPoint1(9, -9); // параметры не выведутся на экран, тк эти значения уже заложены в объекте выше. У bind выше приоритет
-displayPoint.call(point, 200, 300);
-// displayPoint.apply(point, 300, 400);
+const d = new Deferred()
 
-console.log(JSON.stringify(rectangle), JSON.stringify(rectangle2));
-console.log(`rectangle == rectangle2 is ${rectangle == rectangle2}`);
-console.log(`JSON.stringify(rectangle) == JSON.stringify(rectangle2) is ${JSON.stringify(rectangle) == JSON.stringify(rectangle2)}`);
+d.then(function (res) { 
+    console.log("1 ", res);
+    return "a"; 
+});
 
-const rectangele3 = JSON.parse(JSON.stringify(rectangle)); // глубокая копия объекта со всеми уровнями
+d.then(function (res) { 
+    console.log("2 ", res); 
+    return "b"; 
+});
+
+d.then(function (res) { 
+    console.log("3 ", res); 
+    return "c";
+});
+
+d.resolve('hello');
+
+// 1  hello
+// 2  a
+// 3  b
+
