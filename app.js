@@ -52,3 +52,72 @@ console.log(`rectangle == rectangle2 is ${rectangle == rectangle2}`);
 console.log(`JSON.stringify(rectangle) == JSON.stringify(rectangle2) is ${JSON.stringify(rectangle) == JSON.stringify(rectangle2)}`);
 
 const rectangele3 = JSON.parse(JSON.stringify(rectangle)); // глубокая копия объекта со всеми уровнями
+
+const obj = {
+    width: 10,
+    height: 20,
+
+    square: function () {
+        return this.width * this.height;
+    },
+
+    fun: function (...params) {
+        console.log(this);
+        params.forEach(p => console.log(p))
+    }
+}
+
+function fun(...params) {
+    console.log(this);
+    params.forEach(p => console.log(p))
+}
+
+fun(1, 2)
+obj.fun(1, 2)
+
+// const point = { x: 3, y: 4 }
+// function displayPoint(z, t) {
+//     console.log(`x = ${this.x}, y = ${this.y}, z = ${z}, t = ${t}`);
+// }
+
+// const displayPoint1 = displayPoint.bind(point, 100, 200); 
+
+Function.prototype.myBind = function (context, ...boundArgs) {
+    
+    return (...args) => {
+        context.bindedFunc = this;
+        const res = context.bindedFunc(...boundArgs, ...args);
+        delete context.bindedFunc;
+        return res;
+    }
+    
+    // 2 решение
+    // const func = this;
+    // return function(...args){
+    //     context.bindedFunc = func;
+    //     const res = context.bindedFunc(...bindedArgs, ...args);
+    //     delete context.bindedFunc;
+    //     return res;
+    // }
+
+    // 3 решение
+    // return (...newArgs) => {
+    //     const boundObj = {
+    //         ...context,
+    //         boundFunc: this
+    //     }
+    //     return boundObj.boundFunc(...boundArgs, ...newArgs)
+    // }
+
+    // 4 решение
+    // return (...newArgs) => {
+    //     const boundObj = {
+    //         ...context,
+    //         boundFunc: this
+    //     }.boundFunc(...boundArgs, ...newArgs)
+    // }
+}
+
+// console.log(obj.square());
+dp1 = displayPoint.myBind(point, 1, 2);
+dp1();
