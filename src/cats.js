@@ -8,11 +8,14 @@
 //     })
 // })
 
+import movObj from '/movies.json' assert {type: 'json'};
+
 const detailsImageElemet = document.querySelector(".details-image");
 const detailsTitleElement = document.querySelector(".details-title");
-const thumbnailsAnchors = document.querySelectorAll(".thumbnails-anchor");
+
 const detailsSection = document.querySelector(".details-section");
 const main = document.querySelector("main");
+const thumbnails_list = document.querySelector(".thumbnails-list");
 const HIDDEN = "hidden";
 const POINT = "point";
 
@@ -21,11 +24,8 @@ const POINT = "point";
 //         setDetails(thumbnailsAnchors[i]);
 //     })
 // }
-thumbnailsAnchors.forEach(anchor => anchor.addEventListener("click", setDetails.bind(undefined, anchor)))
 
-thumbnailsAnchors[0].addEventListener("", function(){
-    detailsSection.classList.remove(POINT);
-});
+
 
 function setDetails(anchor) {
     showDetails();
@@ -33,16 +33,57 @@ function setDetails(anchor) {
     detailsTitleElement.innerHTML = anchor.getAttribute("data-details-text");
 }
 
-function showDetails(){
+function showDetails() {
     main.classList.remove(HIDDEN);
     detailsSection.classList.add(POINT);
-    setTimeout(function(){
+    setTimeout(function () {
         detailsSection.classList.remove(POINT)
     }, 0);
-    
 }
 
-function hideDetails(){
-    
+
+
+function readJSON() {
+
+    let httpPrefix = movObj.httpPrefix;
+
+    // <li class="thumbnails-item">
+    //     <a href="#" class="thumbnails-anchor" data-datails-image="pictures/cat1.jpg"
+    //         data-details-text="The most beautful cat">
+    //         <img src="pictures/cat1.jpg" class="thumbnails-image">
+    //         <span class="thumbnails-title">Yuki</span>
+    //     </a>
+    // </li>
+
+    movObj.results.forEach(element => {
+        const li = document.createElement('li');
+        li.classList.add("thumbnails-item");
+        thumbnails_list.appendChild(li);
+        const a = document.createElement('a');
+        a.classList.add("thumbnails-anchor");
+        a.setAttribute("data-datails-image", httpPrefix + element.poster_path);
+        a.setAttribute("data-details-text", element.overview.slice(0, 100) + "...");
+        li.appendChild(a);
+        const img = document.createElement('img');
+        img.setAttribute('src', httpPrefix + element.backdrop_path);
+        img.classList.add("thumbnails-image");
+        a.appendChild(img);
+        const span = document.createElement('span');
+        span.classList.add("thumbnails-title");
+        span.innerText = element.original_title;
+
+        a.appendChild(span);
+    });
+}
+
+readJSON();
+
+const thumbnailsAnchors = document.querySelectorAll(".thumbnails-anchor");
+
+thumbnailsAnchors.forEach(anchor => anchor.addEventListener("click", setDetails.bind(undefined, anchor)))
+
+function hideDetails() {
     main.classList.add(HIDDEN);
 }
+
+window.hideDetails = hideDetails;
