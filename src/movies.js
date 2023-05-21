@@ -87,3 +87,4 @@ function hideDetails() {
 }
 
 window.hideDetails = hideDetails;
+
