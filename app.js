@@ -1,85 +1,65 @@
-const ar = []; // длина массива = 0
-ar[10] = 100; // длина массива = 11
-ar[0] = 'hello'; // установаить значение String
-ar[3] = true; // установаить значение Boolean
-ar[5] = []; // удаление элементов массива
-ar.forEach((i) => console.log(i));
+// what's wrong?
+function sleep(timeout) {
+    // setTimeout(() => flRunning = false, timeout); // устанавливается событие, но не выполняется. Начнет выполняться только после отработки скрипта до конца
+    return new Promise(resolve => setTimeout(() => resolve(), timeout));
+}
 
-ar.length = 0; // стереть массив,установить длину = 0
-ar[0] = 1;
-[] && console.log(true); // пустой массив = true
-ar[ar.length] = 10; // добавление в конец массива
+function f1() {
+    console.log('f1 performed');
+}
 
-const ar2 = [1, 2, 3];
-ar.push(ar2); // добавляет элемент(ы) в конец массива
-console.log(ar.length); // length = 3 тк был добавлен МАССИВ
-ar.push(...ar2); // добавление значений из массива
-console.log(ar.length); // length = 6 тк были добавлены ЗНАЧЕНИЯ МАССИВА
+function f2() {
+    console.log('f2 performed');
+}
 
-// method MAP - Возвращает массив такой же размерности, но с преобразованными значениями
+function f3() {
+    console.log('f3 performed');
+}
 
-console.log([1, 2, 3].map(n => n ** 2)); // возведение в степень каждого элемента массива
+const promise = sleep(2000);
+// promise.then(() => f1()).then(() => f2()).then(() => f3());
 
-// функция, которая возвращает случаное целое число в диапазоне
-function getRandomIntNumber(min, max, minInclusive = true, maxInclusive = false) {
-    let res;
-    if (minInclusive) {
-        res = Math.floor(Math.random() * (max - min + maxInclusive - !minInclusive)) + min;
+function getID(predicate) {
+    const IDs = [123, 124, 125];
+    const index = IDs.findIndex(predicate);
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            return index < 0 ? reject('id not found') : resolve(IDs[index]);
+        }, 1000);
+    })
+}
+
+function getCar(id) {
+    const cars = {
+        '123': 'suzuki',
+        '124': 'hundai',
+        '125': 'honda',
     }
-    else {
-        res = Math.ceil(Math.random() * (max - min + maxInclusive - !minInclusive)) + min;
+    const car = cars[id];
+    return new Promise((resolve, reject) => setTimeout(() => car ? resolve(car) : reject('no such car'), 1000))
+}
+
+// function displayCar(predicate) {
+//     getID(predicate)
+//         .then(id => getCar(id))
+//         .then(car => console.log(car))
+//         .catch(error => console.log(error))
+// }
+
+async function displayCar(predicate) {
+    await sleep(10000)
+    try {
+        const id = await getID(predicate) //await раскрывает promise
+        const car = await getCar(id);
+        console.log(car);
+    } catch (error) {
+        console.log(error);
     }
-    return min < max ? res : undefined;
+
+
 }
 
-function getArrayRandomIntNumbers(nNumbers, min, max, minInclusive = true, maxIclusive = false) {
-    const res = []; // Объявляем массив
-    res.length = nNumbers; // устанавливаем длину массива
-    return min < max ? ([...res].map(() => getRandomIntNumber(min, max, minInclusive, maxIclusive))) : undefined;
-}
-
-function yuriGetRandomIntNumber(min, max, minInclusive = true, maxInclusive = false) {
-    if (!minInclusive) {
-        min++;
-    }
-    if (maxInclusive) {
-        max++;
-    }
-    return min < max ? Math.trunc(min + Math.random() * (max - min)) : NaN;
-}
-
-function getOrderedList(array) {
-    //returns HTML string of element <ol> with items from a given array elements
-    //example : [1, 2, 3]
-    //output : "<ol><li>1</li><li>2</li><li>3</li></ol>"
-
-    // return Array.isArray(array) ? `<ol> ${array.map(num => `<li> ${getDiv(num)} </li>`).join('')} </ol>` : ''; // My
-    // return Array.isArray(array) ? `<ol> ${array.map(num => `<li class="${getDiv(num)}"></li>`).join('')} </ol>` : ''; // Lena
-    return Array.isArray(array) ? `<ol> ${getListItem(array)} </ol>` : ''; //Yuri
-}
-
-function getListItem(array) {
-    let res = array.map(v => `<li style="width: 30px; height: 30px; border: solid 1px gray; background-color: ${v ? 'black' : 'white'}"</li>`);
-    return res.join('');
-}
-
-function getDiv(num) {
-    let res = num;
-    if (num == 0) {
-        // res = '<div style="background-color: white;"></div>'; // My
-        res = 'white';
-    }
-    else if (num == 1) {
-        // res = '<div style="background-color: black;"></div>'; // My
-        res = 'black';
-    }
-    return res;
-}
-
-bodyID.innerHTML = getOrderedList(getArrayRandomIntNumbers(10, 0, 1, true, true));
-
-function getMatrixRandomIntNumbers(rows, columns, min, max) {
-    const res = [];
-    res.length = rows;
-    return [...res].map(() => getArrayRandomIntNumbers(columns, min, max, true, true));
-}
+// displayCar(id => id == 126)
+displayCar(id => id == 126).then(() => console.log('thanks for waiting'))
+// если в вызываемой функции нет catch, то обработку ошибки rejet надо обрабатывать здесь в .catch()
+console.log('waiting for the data...');
