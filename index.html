@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Forecast</title>
+    <link rel="stylesheet" href="./style/style.css">
+    </link>
+</head>
+
+<body>
+    <section id="form-place">
+        <label for="form-place-city">City</label>
+        <select id="form-place-city" name="payment"></select>
+        <label for="form-place-date-from">Start date</label>
+        <input id="form-place-date-from" type="date">
+        <label for="form-place-days">Days count</label>
+        <input id="form-place-days" type="number" min="0" max="16" value="0">
+        <label for="form-place-hour-from">From</label>
+        <input id="form-place-hour-from" type="time" value="00:00">
+        <label for="form-place-hour-to">to</label>
+        <input id="form-place-hour-to" type="time" value="23:59">
+        <button id="form-place-submit">refresh</button>
+
+    </section>
+    <section id="table-place">
+    </section>
+    <script src="src/main.js" type="module"></script>
+</body>
+
+</html>
