@@ -9,6 +9,7 @@ export default class OpenMeteoService {
         const url = this.#getUrl(lat, long, startDate, endDate);
         const response = await fetch(url);
         const data = await response.json();
+
         const dates = getDataForHours(data.hourly.time, hourFrom, hourTo);
         const temperatures = getDataForHours(data.hourly.temperature_2m, hourFrom, hourTo);
         const apparentTemperatures = getDataForHours(data.hourly.apparent_temperature, hourFrom, hourTo);
