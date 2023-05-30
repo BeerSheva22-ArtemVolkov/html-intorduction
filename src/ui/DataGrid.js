@@ -9,11 +9,19 @@ export default class DataGrid {
         this.#buildTableHeader(parentID, columns.map(c => c.headerName))
     }
 
-    filldata(rowsData) {
-        let str = rowsData.map(row => `<tr>${this.#keys.map(element => `<td>${row[element]}</td>`).join('')}</tr>`).join('');
-        this.#tBodyElement.innerHTML = str;
+    async fillData(rowsData) {
+        this.#tBodyElement.innerHTML = rowsData.map(rd => this.#getRow(rd)).join('');
     }
 
+    #getRow(obj) {
+        return `<tr>
+                   ${this.#keys.map(key => `<td>${obj[key]}</td>`).join('')}
+                </tr>`
+    }
+
+    insertRow(obj) {
+        this.#tBodyElement.innerHTML += this.#getRow(obj);
+    }
 
     #buildTableHeader(parentID, columnNames) {
         const tableSectionElement = document.getElementById(parentID);
@@ -28,4 +36,6 @@ export default class DataGrid {
         </table>`
         this.#tBodyElement = document.getElementById(parentID + "-table");
     }
+
+
 }
