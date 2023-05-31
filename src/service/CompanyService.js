@@ -16,15 +16,14 @@ export default class CompanyService {
         this.#employees = {};
     }
 
-    async addEmployee(employee) {
-        return new Promise(resolve => {
+    addEmployee(employee) {
+        // return new Promise(resolve => {
             const id = this.#getID();
             this.#employees[id] = { ...employee, id }
-            console.log('added');
-            resolve(this.#employees[id]);
+            // resolve(this.#employees[id]);
+            return this.#employees[id];
             // return getPromise(this.#employees[id], 2000);
-        })
-
+        // })
     }
 
     #getID() {
@@ -60,7 +59,7 @@ export default class CompanyService {
         // return new Promise(resolve => {
         //     resolve(Object.values(this.#employees));
         // })
-        return getPromise(Object.values(this.#employees), 2000);
+        return getPromise(Object.values(this.#employees), 500);
     }
 }
 

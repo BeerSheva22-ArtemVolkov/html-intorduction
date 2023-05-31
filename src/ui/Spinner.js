@@ -17,8 +17,8 @@ export default class Spinner {
     }
 
     stop() {
-        this.#setDisplay('block');
         document.getElementById(this.#parentId).removeChild(this.#newDiv);
+        this.#setDisplay('block');
     }
 
     #setDisplay(displayType){

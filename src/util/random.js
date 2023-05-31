@@ -14,12 +14,28 @@ export function getRandomElement(array) {
 export async function getRandomEmployee(minSalary, maxSalary, departments) {
     const response = await fetch(`https://randomuser.me/api/?nat=US`);
     const data = await response.json();
-    
+
     const gender = data.results[0].gender;
     const name = data.results[0].name.first;
-    const birthYear = new Date().getFullYear() - +data.results[0].dob.age;    
-    
+    const birthYear = new Date().getFullYear() - +data.results[0].dob.age;
+
     const salary = getRandomInt(minSalary, maxSalary) * 1000;
     const department = getRandomElement(departments);
     return { name, birthYear, gender, salary, department };
+}
+
+export async function getRandomEmployees(count, minSalary, maxSalary, departments) {
+    const response = await fetch(`https://randomuser.me/api/?nat=US&results=${count}`);
+    const data = await response.json();
+
+    return data.results.map((empl) => {
+        const gender = empl.gender;
+        const name = empl.name.first;
+        const birthYear = new Date().getFullYear() - +empl.dob.age;
+
+        const salary = getRandomInt(minSalary, maxSalary) * 1000;
+        const department = getRandomElement(departments);
+        return { name, birthYear, gender, salary, department };
+    })
+
 }

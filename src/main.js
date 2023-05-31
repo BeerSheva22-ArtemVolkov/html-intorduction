@@ -1,12 +1,14 @@
 import ApplicationBar from "./ui/ApplicationBar.js";
 import DataGrid from "./ui/DataGrid.js";
 import EmployeeForm from "./ui/EmployeeForm.js";
-import { getRandomEmployee } from "./util/random.js";
+import { getRandomEmployee, getRandomEmployees } from "./util/random.js";
 import CompanyService from "./service/CompanyService.js"
 import employeesConfig from "./config/employees-config.json" assert {type: 'json'}
 import statisticsConfig from "./config/statistic-config.json" assert {type: 'json'}
 import { range } from "./util/number-functions.js"
 import Spinner from "./ui/Spinner.js";
+
+const N_EMPLOYEES = 100;
 
 // employee model
 // {id: number of 9 digits, name: string, birthYear: date, gender: male|female, department: QA, Development, Audit, Accounting, Management}
@@ -46,17 +48,18 @@ const ageStatisticTable = new DataGrid("ages-statistics-place", statisticColumns
 const salaryStatisticTable = new DataGrid("salary-statistics-place", statisticColumns);
 
 async function menuHandler(index) {
+
     let spinner;
+
     if (index == statistcsIndex) {
         spinner = new Spinner("statistics-place");
         spinner.start();
-        console.log('spinner start');
+
         const ageStatistic = await companyService.getStatistics(age.filed, age.interval);
         const salaryStatistic = await companyService.getStatistics(salary.filed, salary.interval);
-
         ageStatisticTable.fillData(ageStatistic);
         salaryStatisticTable.fillData(salaryStatistic);
-        console.log('spinner stop');
+
         spinner.stop();
     }
 
@@ -72,8 +75,9 @@ async function menuHandler(index) {
 }
 
 async function run() {
+
     await generateEmployees();
-    console.log('generate done');
+
     while (true) {
         await employeeForm.buttonHasPressed();
         const employee = await getRandomEmployee(minSalary, maxSalary, departments);
@@ -83,14 +87,13 @@ async function run() {
 }
 
 async function generateEmployees() {
-    for (let i = 0; i < 20; i++){
-        const employee = await getRandomEmployee(minSalary, maxSalary, departments);
-        await companyService.addEmployee(employee);
+    const employees = await getRandomEmployees(N_EMPLOYEES, minSalary, maxSalary, departments);
+    for (let i = 0; i < employees.length; i++) {
+        await companyService.addEmployee(employees[i]);
     }
-    // range(0, 20).forEach(async () => {
-    //     const employee = await getRandomEmployee(minSalary, maxSalary, departments);
-    //     await companyService.addEmployee(employee);
-    // })
 }
 
 run();
+
+// const promises = range(0, N_EMPLOYEES).map(async () => companyService.addEmployee(await getRandomEmployees(N_EMPLOYEES, minSalary, maxSalary, departments)));
+// Promise.all(promises).then(() => run())
