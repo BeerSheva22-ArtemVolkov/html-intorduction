@@ -8,7 +8,9 @@ import statisticsConfig from "./config/statistic-config.json" assert {type: 'jso
 import { range } from "./util/number-functions.js"
 import Spinner from "./ui/Spinner.js";
 
-const N_EMPLOYEES = 100;
+const spinner = new Spinner("menu-place");
+
+const N_EMPLOYEES = 20;
 
 // employee model
 // {id: number of 9 digits, name: string, birthYear: date, gender: male|female, department: QA, Development, Audit, Accounting, Management}
@@ -47,53 +49,60 @@ const employeeTable = new DataGrid("employees-table-place", employeeColumns);
 const ageStatisticTable = new DataGrid("ages-statistics-place", statisticColumns);
 const salaryStatisticTable = new DataGrid("salary-statistics-place", statisticColumns);
 
+employeeForm.addHandler(async (data) => {
+    const employee = await getRandomEmployee(minSalary, maxSalary, departments);
+    await action(companyService.addEmployee.bind(companyService, employee));
+})
+
 async function menuHandler(index) {
 
-    let spinner;
+    switch (index) {
+        case employeesIndex: {
+            const employees = await action(companyService.getAllEmployees.bind(companyService));
+            employeeTable.fillData(employees);
+            break;
+        }
 
-    if (index == statistcsIndex) {
-        spinner = new Spinner("statistics-place");
-        spinner.start();
+        case statistcsIndex: {
+            const ageStatisticData = await action(companyService.getStatistics
+                .bind(companyService, age.filed, age.interval));
+            ageStatisticTable.fillData(ageStatisticData);
 
-        const ageStatistic = await companyService.getStatistics(age.filed, age.interval);
-        const salaryStatistic = await companyService.getStatistics(salary.filed, salary.interval);
-        ageStatisticTable.fillData(ageStatistic);
-        salaryStatisticTable.fillData(salaryStatistic);
-
-        spinner.stop();
+            const salaryStatisticData = await action(companyService.getStatistics
+                .bind(companyService, salary.filed, salary.interval));
+            salaryStatisticTable.fillData(salaryStatisticData);
+        }
     }
 
-    if (index == employeesIndex) {
-        spinner = new Spinner("employees-table-place");
-        spinner.start();
-
-        const allEmpls = await companyService.getAllEmployees();
-        employeeTable.fillData(allEmpls);
-
-        spinner.stop();
-    }
 }
 
-async function run() {
+// async function run() {
 
-    await generateEmployees();
+//     await generateEmployees();
 
-    while (true) {
-        await employeeForm.buttonHasPressed();
-        const employee = await getRandomEmployee(minSalary, maxSalary, departments);
-        const employeeAdded = companyService.addEmployee(employee);
-        // employeeTable.insertRow(employeeAdded);
-    }
+//     while (true) {
+//         await employeeForm.buttonHasPressed();
+//         const employee = await getRandomEmployee(minSalary, maxSalary, departments);
+//         const employeeAdded = companyService.addEmployee(employee);
+//         // employeeTable.insertRow(employeeAdded);
+//     }
+// }
+
+// async function generateEmployees() {
+//     const employees = await getRandomEmployees(N_EMPLOYEES, minSalary, maxSalary, departments);
+//     for (let i = 0; i < employees.length; i++) {
+//         await companyService.addEmployee(employees[i]);
+//     }
+// }
+
+// run();
+
+const promises = range(0, N_EMPLOYEES).map(async () => companyService.addEmployee(await getRandomEmployee(minSalary, maxSalary, departments)));
+Promise.all(promises)
+
+async function action(serviceFn) {
+    spinner.start();
+    const res = await serviceFn();
+    spinner.stop();
+    return res;
 }
-
-async function generateEmployees() {
-    const employees = await getRandomEmployees(N_EMPLOYEES, minSalary, maxSalary, departments);
-    for (let i = 0; i < employees.length; i++) {
-        await companyService.addEmployee(employees[i]);
-    }
-}
-
-run();
-
-// const promises = range(0, N_EMPLOYEES).map(async () => companyService.addEmployee(await getRandomEmployees(N_EMPLOYEES, minSalary, maxSalary, departments)));
-// Promise.all(promises).then(() => run())

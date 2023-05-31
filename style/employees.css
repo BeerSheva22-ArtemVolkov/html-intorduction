@@ -24,7 +24,7 @@ table {
 
 #statistics-place table,
 #employees-table-place table {
-    margin: .5rem;
+    margin: .5rem auto;
     padding: .5rem;
     color: #FFFF40;
     background-color: #FF7400;
@@ -77,8 +77,4 @@ tbody tr:hover {
 
 .hide-loader {
     display: none;
-}
-
-tbody{
-    max-height: 200px ;
 }

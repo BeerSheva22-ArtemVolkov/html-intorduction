@@ -13,9 +13,13 @@ export default class EmployeeForm {
         this.#parentElement.innerHTML = `<button id="button-id">Add random employee data</button>`
     }
 
-    buttonHasPressed() {
-        return new Promise(resolve => {
-            this.#buttonElement.onclick = () => resolve();
-        })
+    // buttonHasPressed() {
+    //     return new Promise(resolve => {
+    //         this.#buttonElement.onclick = () => resolve();
+    //     })
+    // }
+
+    addHandler(submitFn) {
+        this.#buttonElement.onclick = submitFn;
     }
 }
