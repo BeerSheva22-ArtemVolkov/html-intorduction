@@ -2,11 +2,12 @@ export default class DataGrid {
 
     #tBodyElement;
     #keys;
+    #callbackFn;
 
     constructor(parentID, columns) {
         // columns - array of objects {field: <name of key>, headerName: <column name>}
         this.#keys = columns.map(column => column.field);
-        this.#buildTableHeader(parentID, columns.map(c => c.headerName))
+        this.#buildTableHeader(parentID, columns.map(c => c.headerName));
     }
 
     async fillData(rowsData) {
@@ -19,8 +20,28 @@ export default class DataGrid {
                 </tr>`
     }
 
+    addHandler(handler) {
+        this.#callbackFn = handler;
+        this.#addListeners();
+    }
+
     insertRow(obj) {
         this.#tBodyElement.innerHTML += this.#getRow(obj);
+    }
+
+    deleteRow(nRow) {
+        this.#tBodyElement.deleteRow(nRow);
+    }
+
+    editRow(nRow){
+        // deleteRow(nRow);
+        this.#tBodyElement.innerHTML += this.#getRow(obj);
+    }
+
+    #addListeners() {
+        this.#tBodyElement.childNodes.forEach((row, index) => {
+            row.addEventListener("click", this.#handler.bind(this, index))
+        })
     }
 
     #buildTableHeader(parentID, columnNames) {
@@ -37,5 +58,32 @@ export default class DataGrid {
         this.#tBodyElement = document.getElementById(parentID + "-table");
     }
 
+    async #handler(index) {
 
+        // if (this.#activeIndex == undefined || index != this.#activeIndex) {
+
+        //     if (this.#activeIndex != undefined) {
+        //         this.#Buttons[this.#activeIndex].classList.remove(ACTIVE);
+        //         this.#sectionElements[this.#activeIndex].hidden = true;
+        //     }
+        await this.#callbackFn(index);
+
+        //     this.#sectionElements[index].hidden = false;
+        //     this.#Buttons[index].classList.add(ACTIVE);
+        //     this.#activeIndex = index;
+        // }
+
+    }
+
+    showVariants(nRow){
+        // const td = document.createElement("td");
+        // td.
+        // console.log(this.#tBodyElement.childNodes[nRow].appendChild(td));
+    }
+
+    async getID(nRow){
+        const indexOfColumn = this.#keys.indexOf('id');
+        const ID = +this.#tBodyElement.getElementsByTagName("tr")[nRow].getElementsByTagName("td")[indexOfColumn].innerText;
+        return ID;
+    }
 }

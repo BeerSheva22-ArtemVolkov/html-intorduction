@@ -3,11 +3,6 @@ import { count } from "../util/number-functions.js";
 const minId = 100000;
 const maxId = 1000000;
 
-// TODO
-// using setTimeout() update the CompanyService code 
-// that each public method returns promise that after some timeout 
-// in the resolve state
-
 export default class CompanyService {
 
     #employees;
@@ -18,12 +13,22 @@ export default class CompanyService {
 
     addEmployee(employee) {
         // return new Promise(resolve => {
-            const id = this.#getID();
-            this.#employees[id] = { ...employee, id }
-            // resolve(this.#employees[id]);
-            return this.#employees[id];
-            // return getPromise(this.#employees[id], 2000);
+        const id = this.#getID();
+        this.#employees[id] = { ...employee, id }
+        // resolve(this.#employees[id]);
+        return this.#employees[id];
+        // return getPromise(this.#employees[id], 2000);
         // })
+    }
+
+    removeEmployee(id) {
+        const removedEmployee = this.#employees[`${id}`];
+        delete this.#employees[`${id}`];
+        return removedEmployee;
+    }
+
+    editEmployee(id, employee){
+        this.#employees[id] = { ...employee, id }
     }
 
     #getID() {
@@ -36,21 +41,21 @@ export default class CompanyService {
 
     async getStatistics(field, interval) {
         // return new Promise(resolve => {
-            let array = Object.values(this.#employees);
-            const currentYear = new Date().getFullYear();
+        let array = Object.values(this.#employees);
+        const currentYear = new Date().getFullYear();
 
-            if (field == 'birthYear') {
-                array = array.map(e => ({ 'age': currentYear - e.birthYear }));
-                field = 'age';
-            }
-            const statisticsObj = count(array, field, interval);
-            const res = Object.entries(statisticsObj).map(e => {
-                const min = e[0] * interval;
-                const max = min + interval - 1;
-                return { min, max, count: e[1] };
-            });
-            // resolve(res);
-            return getPromise(res, 2000);
+        if (field == 'birthYear') {
+            array = array.map(e => ({ 'age': currentYear - e.birthYear }));
+            field = 'age';
+        }
+        const statisticsObj = count(array, field, interval);
+        const res = Object.entries(statisticsObj).map(e => {
+            const min = e[0] * interval;
+            const max = min + interval - 1;
+            return { min, max, count: e[1] };
+        });
+        // resolve(res);
+        return getPromise(res, 2000);
         // })
 
     }

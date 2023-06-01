@@ -7,10 +7,10 @@ export default class ApplicationBar {
     #activeIndex;
     #callbackFn;
 
-    constructor(parentId, sections, callbackFn) {
+    constructor(parentId, sections, handler) {
         // sections - array of objects
         // {title: string, id: string}
-        this.#callbackFn = callbackFn;
+        this.#callbackFn = handler;
         this.#fillButtons(parentId, sections.map(s => s.title));
         this.#setSectionsElements(sections.map(s => s.id));
         this.#addListeners();
@@ -27,7 +27,7 @@ export default class ApplicationBar {
     }
 
     #addListeners() {
-        this.#Buttons.forEach((button, index) => button.addEventListener("click", this.#handler.bind(this, index)),)
+        this.#Buttons.forEach((button, index) => button.addEventListener("click", this.#handler.bind(this, index)))
     }
 
     async #handler(index) {
@@ -35,7 +35,6 @@ export default class ApplicationBar {
         if (this.#activeIndex == undefined || index != this.#activeIndex) {
 
             if (this.#activeIndex != undefined) {
-                // this.#addStyle(this.#sectionElements[this.#activeIndex], 'none');
                 this.#Buttons[this.#activeIndex].classList.remove(ACTIVE);
                 this.#sectionElements[this.#activeIndex].hidden = true;
             }
@@ -45,13 +44,7 @@ export default class ApplicationBar {
             this.#sectionElements[index].hidden = false;
             this.#Buttons[index].classList.add(ACTIVE);
             this.#activeIndex = index;
-            // this.#addStyle(this.#sectionElements[index], 'flex');
-
         }
 
-    }
-
-    #addStyle(section, typeOfStyle) {
-        section.style.display = typeOfStyle;
     }
 }

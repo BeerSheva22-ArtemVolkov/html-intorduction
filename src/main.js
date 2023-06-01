@@ -1,6 +1,7 @@
 import ApplicationBar from "./ui/ApplicationBar.js";
 import DataGrid from "./ui/DataGrid.js";
 import EmployeeForm from "./ui/EmployeeForm.js";
+import SubmitForm from "./ui/SubmitForm.js";
 import { getRandomEmployee, getRandomEmployees } from "./util/random.js";
 import CompanyService from "./service/CompanyService.js"
 import employeesConfig from "./config/employees-config.json" assert {type: 'json'}
@@ -10,13 +11,10 @@ import Spinner from "./ui/Spinner.js";
 
 const spinner = new Spinner("menu-place");
 
-const N_EMPLOYEES = 20;
-
-// employee model
-// {id: number of 9 digits, name: string, birthYear: date, gender: male|female, department: QA, Development, Audit, Accounting, Management}
+const N_EMPLOYEES = 5;
 
 const sections = [
-    { title: "Employees", id: "employees-table-place" },
+    { title: "Employees", id: "employees-place" },
     { title: "Add employee ", id: "employees-form-place" },
     { title: "Statistics", id: "statistics-place" }
 ];
@@ -44,15 +42,32 @@ const { age, salary } = statisticsConfig;
 
 const menu = new ApplicationBar("menu-place", sections, menuHandler);
 const companyService = new CompanyService();
-const employeeForm = new EmployeeForm("employees-form-place");
+const employeeForm = new EmployeeForm("employees-form-place", { minSalary, maxSalary, departments, minYear, maxYear });
+const sumbitForm = new SubmitForm("employees-select");
 const employeeTable = new DataGrid("employees-table-place", employeeColumns);
 const ageStatisticTable = new DataGrid("ages-statistics-place", statisticColumns);
 const salaryStatisticTable = new DataGrid("salary-statistics-place", statisticColumns);
 
-employeeForm.addHandler(async (data) => {
-    const employee = await getRandomEmployee(minSalary, maxSalary, departments);
+employeeForm.addHandler(async (employee) => {
     await action(companyService.addEmployee.bind(companyService, employee));
 })
+
+// sumbitForm.addHandler(async () => {
+//     companyService.removeEmployee(id);
+//     employeeTable.deleteRow(nRow);
+// }, async () => {
+//     companyService.editEmployee(id);
+//     employeeTable.editRow(nRow);
+// })
+
+async function tableHandler(nRow) {
+    const id = await employeeTable.getID(nRow);
+    sumbitForm.show();
+    
+    // sumbitForm.hide();
+    // const employee = companyService.removeEmployee(id);
+    // employeeTable.deleteRow(nRow);
+}
 
 async function menuHandler(index) {
 
@@ -60,6 +75,7 @@ async function menuHandler(index) {
         case employeesIndex: {
             const employees = await action(companyService.getAllEmployees.bind(companyService));
             employeeTable.fillData(employees);
+            employeeTable.addHandler(tableHandler);
             break;
         }
 
@@ -74,6 +90,8 @@ async function menuHandler(index) {
         }
     }
 
+    const empls = await companyService.getAllEmployees();
+    // companyService.removeEmployee(empls)
 }
 
 // async function run() {
@@ -97,8 +115,11 @@ async function menuHandler(index) {
 
 // run();
 
-const promises = range(0, N_EMPLOYEES).map(async () => companyService.addEmployee(await getRandomEmployee(minSalary, maxSalary, departments)));
-Promise.all(promises)
+async function generateEmployees() {
+    const promises = range(0, N_EMPLOYEES).map(async () => companyService.addEmployee(await getRandomEmployee(minSalary, maxSalary, departments)));
+    const res = await Promise.all(promises);
+    return res;
+}
 
 async function action(serviceFn) {
     spinner.start();
@@ -106,3 +127,5 @@ async function action(serviceFn) {
     spinner.stop();
     return res;
 }
+
+action(generateEmployees);
