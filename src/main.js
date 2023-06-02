@@ -65,11 +65,15 @@ sumbitForm.addHandler(async (nRow, id) => {
 })
 
 async function tableHandler(nRow) {
-    console.log(nRow);
-    const id = await employeeTable.getID(nRow);
-    const empl = companyService.getEmployee(id);
-    sumbitForm.setParams(nRow, id, empl);
-    sumbitForm.show();
+    if (employeeTable.selectRow(nRow)){
+        const id = await employeeTable.getID(nRow);
+        const empl = companyService.getEmployee(id);
+        sumbitForm.setParams(nRow, id, empl);
+        sumbitForm.show();
+    } else {
+        sumbitForm.hide();
+    }
+    
     // ждем нажатие кнопки submit
     // sumbitForm.hide();
 }

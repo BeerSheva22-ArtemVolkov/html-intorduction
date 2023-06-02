@@ -40,30 +40,25 @@ table th {
     width: 5rem;
 }
 
-tr:first-child,
+tr td:first-child,
 th:first-child {
     border-radius: .5rem 0rem 0rem .5rem;
 }
 
-tr:last-child,
+tr td:last-child,
 th:last-child {
     border-radius: 0rem .5rem .5rem 0rem;
 }
 
 
-tbody tr:active,
-tbody tr:hover,
-tbody tr:focus,
-tbody tr:target {
-    background-color: #AD66D5;
+tbody tr:hover {
+    background-color: black;
 }
 
 .loader {
     margin: 20%;
     border: 16px solid #f3f3f3;
-    /* Light grey */
     border-top: 16px solid #3498db;
-    /* Blue */
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -102,23 +97,20 @@ tbody tr:target {
     justify-content: center;
 }
 
-.edit-control>div{
-    /* background-color: red; */
+/* .edit-control>div {
     margin-bottom: 2vh;
-}
+} */
 
-.form-control * {
+.form-control *,
+.edit-control .edit-required  {
     -webkit-box-sizing: border-box;
-    padding: 0;
-    margin-top: 1vh;
+    /* margin-top: 1vh; */
     width: 100%;
 }
 
-.edit-control .edit-required{
-    -webkit-box-sizing: border-box;
-    padding: 0;
-    margin-bottom: 4vh;
-    width: 100%;
+.edit-section>div,
+.form-control>div {
+    margin-bottom: 1vh;
 }
 
 #male-id {
@@ -147,15 +139,29 @@ tbody tr:target {
 .radio-group,
 .select-group,
 .number-group,
-.edit-section,
-.input-group {
+.input-group,
+.edit-department,
+.edit-name,
+.edit-salary {
     background-color: black;
     padding: 1rem;
     border-radius: .5rem;
 }
 
-.number-control,
-.input-control {
+/* .edit-section {
+    padding: 1rem;
+    border-radius: .5rem;
+} */
+
+.edit-section div{
+    background-color: black;
+    border-radius: .5rem;
+}
+
+.input-group,
+.number-group,
+.edit-salary,
+.edit-name {
     position: relative;
 }
 
@@ -172,10 +178,14 @@ tbody tr:target {
 }
 
 .number-control label,
-.input-control label {
+.input-control label,
+.edit-salary label,
+.edit-name label {
     position: absolute;
     top: 0;
     left: 0;
+    padding-left: 1rem;
+    padding-top: 1rem;
     font-size: 16px;
     color: #FF6200;
     transition: 0.3s ease-in-out;
@@ -219,21 +229,24 @@ tbody tr:target {
 }
 
 .choose-section label {
-    background-color: black;
-    border-radius: .5rem;
-    padding: .1rem;
-    margin: .5rem;
-    font-size: large;
-}
-
-.choose-section div:checked {
-    background-color: blue;
-}
-
-.choose-section label{
     float: left;
     width: 100%;
     height: 100%;
     margin: 0;
-    border: 1px solid black
+    border: 1px solid black;
+    background-color: black;
+    border-radius: .5rem;
+    font-size: large;
+}
+
+.submitBtn{
+    color: #FF6200;
+    background-color: black;
+    border-radius: .5rem;
+    border: 1px solid black;
+    height: 2rem;
+}
+
+.submitBtn:hover{
+    background-color: yellow;
 }

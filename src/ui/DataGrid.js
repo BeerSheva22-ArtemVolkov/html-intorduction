@@ -1,8 +1,12 @@
+// const unselectColor = "#f7df1e";
+const selectColor = "black";
+
 export default class DataGrid {
 
     #tBodyElement;
     #keys;
     #callbackFn;
+    #selectedRow;
 
     constructor(parentID, columns) {
         // columns - array of objects {field: <name of key>, headerName: <column name>}
@@ -23,6 +27,31 @@ export default class DataGrid {
     addHandler(handler) {
         this.#callbackFn = handler;
         this.#addListeners();
+    }
+
+    selectRow(nRow){
+        if(this.#selectedRow != undefined){
+            this.#deselectRow();
+        }
+        const element = this.#tBodyElement.getElementsByTagName("tr")[nRow];
+        let hasChanged = false;
+        if (this.#selectedRow != nRow){
+            if (element.style.backgroundColor != selectColor){
+                element.style.backgroundColor = selectColor;
+                hasChanged = true;
+            } else {            
+                element.style.backgroundColor = '';
+            }
+            this.#selectedRow = nRow;
+        } else {
+            this.#selectedRow = undefined;
+        }
+        
+        return hasChanged;
+    }
+
+    #deselectRow(){
+        this.#tBodyElement.getElementsByTagName("tr")[this.#selectedRow].style.backgroundColor = '';
     }
 
     insertRow(obj) {

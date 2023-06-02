@@ -29,7 +29,7 @@ export default class SubmitForm {
 
         parentElement.innerHTML += `<form class="edit-control" id="${parentId}-form-id" autocomplete="off">
             <div class="edit-section">
-                <div class="input-control">
+                <div class="edit-name">
                     <input type="text" name="name" id="name-id" class="edit-required" required>
                     <label for="name-id">Name</label>
                 </div>
@@ -40,7 +40,7 @@ export default class SubmitForm {
                         ${this.#params.departments.map(dep => `<option value="${dep}">${dep}</option>`).join('')}
                     </select>
                 </div>
-                <div class="number-control">
+                <div class="edit-salary">
                     <input type="number" name="salary" id="salary-id" placeholder="" min=${this.#params.minSalary * 1000} max=${this.#params.maxSalary * 1000} class="edit-required" required>
                     <label for="salary-id">Salary</label>
                 </div>
@@ -55,7 +55,7 @@ export default class SubmitForm {
                     <input type="radio" name="choise" id="${deleteRadio}" >
                 </div>
             </div>
-            <button type="submit">Submit</button>
+            <button class="submitBtn" type="submit">Submit</button>
         </form>`
     }
 

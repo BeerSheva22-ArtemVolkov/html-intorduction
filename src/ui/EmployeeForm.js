@@ -63,7 +63,7 @@ export default class EmployeeForm {
                 </div>
             </div>
             
-            <button type="submit">Submit</button>
+            <button class="submitBtn" type="submit">Submit</button>
         </form>`
     }
 
