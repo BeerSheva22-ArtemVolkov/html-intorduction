@@ -24,7 +24,7 @@ export default class EmployeeForm {
     // }
 
     #fillForm(parentElement, parentId) {
-        parentElement.innerHTML = `<form class="form-control" id="${parentId}-form-id">
+        parentElement.innerHTML = `<form class="form-control" id="${parentId}-form-id" autocomplete="off">
             <div class="input-group">
                 <div class="input-control">
                     <input type="text" name="name" id="name-id" required>

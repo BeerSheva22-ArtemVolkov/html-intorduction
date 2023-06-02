@@ -33,9 +33,8 @@ export default class DataGrid {
         this.#tBodyElement.deleteRow(nRow);
     }
 
-    editRow(nRow){
-        // deleteRow(nRow);
-        this.#tBodyElement.innerHTML += this.#getRow(obj);
+    editRow(obj, nRow){
+        this.#tBodyElement.getElementsByTagName("tr")[nRow].innerHTML = this.#getRow(obj);
     }
 
     #addListeners() {
@@ -73,12 +72,6 @@ export default class DataGrid {
         //     this.#activeIndex = index;
         // }
 
-    }
-
-    showVariants(nRow){
-        // const td = document.createElement("td");
-        // td.
-        // console.log(this.#tBodyElement.childNodes[nRow].appendChild(td));
     }
 
     async getID(nRow){

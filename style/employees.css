@@ -24,18 +24,19 @@ table {
 
 #statistics-place table,
 #employees-table-place table {
+    font-size: 125%;
     margin: .5rem auto;
     padding: .5rem;
-    color: #FFFF40;
-    background-color: #FF7400;
-    border: 2px solid #AD66D5;
+    color: #FF6200;
+    background-color: #f7df1e;
+    border: 2px solid black;
     border-radius: .5rem;
     text-align: center;
 
 }
 
 table th {
-    background-color: #AD66D5;
+    background-color: black;
     width: 5rem;
 }
 
@@ -86,9 +87,9 @@ tbody tr:target {
 .radio-group {
     display: flex;
     flex-direction: row;
-    /* margin-top: 2vh; */
 }
 
+.edit-control,
 .form-control {
     background-color: #f7df1e;
     padding: 20px;
@@ -101,10 +102,22 @@ tbody tr:target {
     justify-content: center;
 }
 
+.edit-control>div{
+    /* background-color: red; */
+    margin-bottom: 2vh;
+}
+
 .form-control * {
     -webkit-box-sizing: border-box;
     padding: 0;
     margin-top: 1vh;
+    width: 100%;
+}
+
+.edit-control .edit-required{
+    -webkit-box-sizing: border-box;
+    padding: 0;
+    margin-bottom: 4vh;
     width: 100%;
 }
 
@@ -134,9 +147,10 @@ tbody tr:target {
 .radio-group,
 .select-group,
 .number-group,
+.edit-section,
 .input-group {
     background-color: black;
-    padding: 20px;
+    padding: 1rem;
     border-radius: .5rem;
 }
 
@@ -153,7 +167,7 @@ tbody tr:target {
     background: transparent;
     width: 100%;
     padding: 8px 5px 0 0;
-    color: white;
+    color: #FF6200;
     font-size: 16px;
 }
 
@@ -163,7 +177,7 @@ tbody tr:target {
     top: 0;
     left: 0;
     font-size: 16px;
-    color: white;
+    color: #FF6200;
     transition: 0.3s ease-in-out;
 }
 
@@ -185,6 +199,41 @@ tbody tr:target {
 
 /* --------- */
 
-td{
-    contenteditable: true;
+.choose-section input {
+    display: none;
+}
+
+.choose-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #FF6200;
+    width: 100%;
+}
+
+.choose-section div {
+    width: 100%;
+    margin: .5rem;
+}
+
+.choose-section label {
+    background-color: black;
+    border-radius: .5rem;
+    padding: .1rem;
+    margin: .5rem;
+    font-size: large;
+}
+
+.choose-section div:checked {
+    background-color: blue;
+}
+
+.choose-section label{
+    float: left;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 1px solid black
 }

@@ -12,13 +12,9 @@ export default class CompanyService {
     }
 
     addEmployee(employee) {
-        // return new Promise(resolve => {
         const id = this.#getID();
         this.#employees[id] = { ...employee, id }
-        // resolve(this.#employees[id]);
         return this.#employees[id];
-        // return getPromise(this.#employees[id], 2000);
-        // })
     }
 
     removeEmployee(id) {
@@ -27,8 +23,14 @@ export default class CompanyService {
         return removedEmployee;
     }
 
-    editEmployee(id, employee){
-        this.#employees[id] = { ...employee, id }
+    editEmployee(employee) {
+        const id = +employee.id;
+        this.#employees[id] = { ...employee }
+    }
+
+    getEmployee(id) {
+        const employee = this.#employees[id];
+        return employee;
     }
 
     #getID() {

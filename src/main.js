@@ -43,7 +43,7 @@ const { age, salary } = statisticsConfig;
 const menu = new ApplicationBar("menu-place", sections, menuHandler);
 const companyService = new CompanyService();
 const employeeForm = new EmployeeForm("employees-form-place", { minSalary, maxSalary, departments, minYear, maxYear });
-const sumbitForm = new SubmitForm("employees-select");
+const sumbitForm = new SubmitForm("employees-select", { minSalary, maxSalary, departments, minYear, maxYear });
 const employeeTable = new DataGrid("employees-table-place", employeeColumns);
 const ageStatisticTable = new DataGrid("ages-statistics-place", statisticColumns);
 const salaryStatisticTable = new DataGrid("salary-statistics-place", statisticColumns);
@@ -52,21 +52,26 @@ employeeForm.addHandler(async (employee) => {
     await action(companyService.addEmployee.bind(companyService, employee));
 })
 
-// sumbitForm.addHandler(async () => {
-//     companyService.removeEmployee(id);
-//     employeeTable.deleteRow(nRow);
-// }, async () => {
-//     companyService.editEmployee(id);
-//     employeeTable.editRow(nRow);
-// })
+sumbitForm.addHandler(async (nRow, id) => {
+    // const id = await employeeTable.getID(nRow);
+    companyService.removeEmployee(id);
+    employeeTable.deleteRow(nRow);
+}, async (nRow, empl) => {
+    // const id = await employeeTable.getID(nRow);
+    companyService.editEmployee(empl);
+    employeeTable.editRow(empl, nRow);
+}, async (id) => {
+    companyService.getEmployee(id);
+})
 
 async function tableHandler(nRow) {
+    console.log(nRow);
     const id = await employeeTable.getID(nRow);
+    const empl = companyService.getEmployee(id);
+    sumbitForm.setParams(nRow, id, empl);
     sumbitForm.show();
-    
+    // ждем нажатие кнопки submit
     // sumbitForm.hide();
-    // const employee = companyService.removeEmployee(id);
-    // employeeTable.deleteRow(nRow);
 }
 
 async function menuHandler(index) {
