@@ -82,6 +82,22 @@ tbody tr:hover {
 .radio-group {
     display: flex;
     flex-direction: row;
+    text-align: center;
+    /* font-size: ; */
+}
+
+.radio-control{
+    border-radius: .5rem;
+    /* padding: 1rem; */
+    border: 1px solid black;
+}
+
+.radio-control:first-child{
+    margin-right: .2rem;
+}
+
+.radio-control:last-child{
+    margin-left: .2rem;
 }
 
 .edit-control,
@@ -92,7 +108,8 @@ tbody tr:hover {
     border-radius: .5rem;
     display: flex;
     flex-direction: column;
-    width: 25vw;
+    max-width: 15vw;
+    /* min-width: 15vw; */
     margin: .5rem auto;
     justify-content: center;
 }
@@ -102,7 +119,7 @@ tbody tr:hover {
 } */
 
 .form-control *,
-.edit-control .edit-required  {
+.edit-control .edit-required {
     -webkit-box-sizing: border-box;
     /* margin-top: 1vh; */
     width: 100%;
@@ -113,12 +130,7 @@ tbody tr:hover {
     margin-bottom: 1vh;
 }
 
-#male-id {
-    margin-top: -1vh;
-    vertical-align: middle;
-    width: 50%;
-}
-
+#male-id,
 #female-id {
     margin-top: -1vh;
     vertical-align: middle;
@@ -130,13 +142,18 @@ tbody tr:hover {
     color: white;
 }
 
+.radio-control label{
+    width: 100%;
+    color:#FF6200
+}
+
 /* --------- */
 #salary-id::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 
 .date-group,
-.radio-group,
+/* .radio-group, */
 .select-group,
 .number-group,
 .input-group,
@@ -153,7 +170,7 @@ tbody tr:hover {
     border-radius: .5rem;
 } */
 
-.edit-section div{
+.edit-section div {
     background-color: black;
     border-radius: .5rem;
 }
@@ -209,7 +226,8 @@ tbody tr:hover {
 
 /* --------- */
 
-.choose-section input {
+.choose-section input,
+.radio-group input {
     display: none;
 }
 
@@ -239,7 +257,7 @@ tbody tr:hover {
     font-size: large;
 }
 
-.submitBtn{
+.submitBtn {
     color: #FF6200;
     background-color: black;
     border-radius: .5rem;
@@ -247,6 +265,15 @@ tbody tr:hover {
     height: 2rem;
 }
 
-.submitBtn:hover{
+.submitBtn:hover {
     background-color: yellow;
+}
+
+@media screen and (max-width: 1100px) {
+
+    .edit-control,
+    .form-control {
+        max-width: 25vw;
+        min-width: 15vw;
+    }
 }

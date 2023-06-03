@@ -1,27 +1,23 @@
-export default class EmployeeForm {
+const maleLabel = "male-label";
+const femaleLabel = "female-label";
+const checkedColor = "yellow";
+const uncheckedColor = "black";
 
-    // #buttonElement;
-    // #parentElement;
+export default class EmployeeForm {
 
     #dataObj;
     #formElement;
     #params;
 
     constructor(parentId, params) {
-        // this.#parentElement = document.getElementById(parentId);
-        // this.#fillSection();
         const parentElement = document.getElementById(parentId);
         this.#params = params;
         // this.#dataObj = { name: 'Vasya', department: 'QA', salary: 5000, birthYear: 2000 };
         this.#dataObj = {};
         this.#fillForm(parentElement, parentId);
+        this.#addListeners();
         this.#setElements(parentId);
-        // this.#buttonElement = document.getElementById('button-id');
     }
-
-    // #fillSection() {
-    //     this.#parentElement.innerHTML = `<button id="button-id">Add random employee data</button>`
-    // }
 
     #fillForm(parentElement, parentId) {
         parentElement.innerHTML = `<form class="form-control" id="${parentId}-form-id" autocomplete="off">
@@ -38,11 +34,11 @@ export default class EmployeeForm {
                 </div>
             </div>
             <div class="radio-group">
-                <div class="radio-control">
+                <div class="radio-control" id="${maleLabel}">
                     <label for="male-id">male</label>
                     <input type="radio" name="gender" value="male" id="male-id" required unchecked>
                 </div>
-                <div class="radio-control">
+                <div class="radio-control" id="${femaleLabel}">
                     <label for="female-id">female</label>
                     <input type="radio" name="gender" value="female" id="female-id" required unchecked>
                 </div>
@@ -67,11 +63,22 @@ export default class EmployeeForm {
         </form>`
     }
 
-    // buttonHasPressed() {
-    //     return new Promise(resolve => {
-    //         this.#buttonElement.onclick = () => resolve();
-    //     })
-    // }
+    #addListeners() {
+        const radioButtons = document.querySelectorAll('input[name="gender"]');
+        radioButtons.forEach(radio => {
+            radio.addEventListener('click', this.#handlerRadioClick);
+        });
+    }
+
+    #handlerRadioClick() {
+        if (document.getElementById('male-id').checked) {
+            setColor(maleLabel, checkedColor);
+            setColor(femaleLabel, uncheckedColor);
+        } else {
+            setColor(femaleLabel, checkedColor);
+            setColor(maleLabel, uncheckedColor);
+        }
+    }
 
     #setElements(parentId) {
         this.#formElement = document.getElementById(`${parentId}-form-id`);
@@ -88,6 +95,9 @@ export default class EmployeeForm {
             this.#dataObj.birthYear = new Date(formData.get('birthday')).getFullYear();
             await submitFn(this.#dataObj)
         };
-        // this.#buttonElement.onclick = submitFn;
     }
+}
+
+function setColor(label, color){
+    document.getElementById(label).style.backgroundColor = color;
 }
