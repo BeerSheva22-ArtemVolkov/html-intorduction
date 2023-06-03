@@ -4,6 +4,7 @@ import EmployeeForm from "./ui/EmployeeForm.js";
 import SubmitForm from "./ui/SubmitForm.js";
 import { getRandomEmployee, getRandomEmployees } from "./util/random.js";
 import CompanyService from "./service/CompanyService.js"
+import ServerCompanyService from "./service/ServerCompanyService.js"
 import employeesConfig from "./config/employees-config.json" assert {type: 'json'}
 import statisticsConfig from "./config/statistic-config.json" assert {type: 'json'}
 import { range } from "./util/number-functions.js"
@@ -42,6 +43,7 @@ const { age, salary } = statisticsConfig;
 
 const menu = new ApplicationBar("menu-place", sections, menuHandler);
 const companyService = new CompanyService();
+const serverCompanyService = new ServerCompanyService();
 const employeeForm = new EmployeeForm("employees-form-place", { minSalary, maxSalary, departments, minYear, maxYear });
 const sumbitForm = new SubmitForm("employees-select", { minSalary, maxSalary, departments, minYear, maxYear });
 const employeeTable = new DataGrid("employees-table-place", employeeColumns);
@@ -137,4 +139,5 @@ async function action(serviceFn) {
     return res;
 }
 
-action(generateEmployees);
+// action(generateEmployees);
+action(serverCompanyService.getAllEmployees);
