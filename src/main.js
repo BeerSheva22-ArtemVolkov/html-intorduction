@@ -3,7 +3,7 @@ import DataGrid from "./ui/DataGrid.js";
 import EmployeeForm from "./ui/EmployeeForm.js";
 import SubmitForm from "./ui/SubmitForm.js";
 import { getRandomEmployee, getRandomEmployees } from "./util/random.js";
-import CompanyService from "./service/CompanyService.js"
+// import CompanyService from "./service/CompanyService.js"
 import ServerCompanyService from "./service/ServerCompanyService.js"
 import employeesConfig from "./config/employees-config.json" assert {type: 'json'}
 import statisticsConfig from "./config/statistic-config.json" assert {type: 'json'}
@@ -43,8 +43,8 @@ const { age, salary } = statisticsConfig;
 
 const menu = new ApplicationBar("menu-place", sections, menuHandler);
 const serverCompanyService = new ServerCompanyService();
-const employeeForm = new EmployeeForm("employees-form-place", { minSalary, maxSalary, departments, minYear, maxYear });
-const sumbitForm = new SubmitForm("employees-select", { minSalary, maxSalary, departments, minYear, maxYear });
+const employeeForm = new EmployeeForm("employees-form-place", employeesConfig);
+const sumbitForm = new SubmitForm("employees-select", employeesConfig);
 const employeeTable = new DataGrid("employees-table-place", employeeColumns);
 const ageStatisticTable = new DataGrid("ages-statistics-place", statisticColumns);
 const salaryStatisticTable = new DataGrid("salary-statistics-place", statisticColumns);
@@ -54,29 +54,25 @@ employeeForm.addHandler(async (employee) => {
 })
 
 sumbitForm.addHandler(async (nRow, id) => {
-    // const id = await employeeTable.getID(nRow);
     await serverCompanyService.removeEmployee(id);
     employeeTable.deleteRow(nRow);
 }, async (nRow, empl) => {
-    // const id = await employeeTable.getID(nRow);
     await serverCompanyService.editEmployee(empl);
     employeeTable.editRow(empl, nRow);
-}, async (id) => {
-    await serverCompanyService.getEmployee(id);
 })
 
-async function tableHandler(nRow) {
+async function editTableHandler(nRow) {
     if (employeeTable.selectRow(nRow)){
         const id = await employeeTable.getID(nRow);
         const empl = await serverCompanyService.getEmployee(id);
         sumbitForm.setParams(nRow, id, empl);
+        sumbitForm.fillParams();
         sumbitForm.show();
     } else {
         sumbitForm.hide();
     }
     
-    // ждем нажатие кнопки submit
-    // sumbitForm.hide();
+   
 }
 
 async function menuHandler(index) {
@@ -85,7 +81,7 @@ async function menuHandler(index) {
         case employeesIndex: {
             const employees = await action(serverCompanyService.getAllEmployees.bind(serverCompanyService));
             employeeTable.fillData(employees);
-            employeeTable.addHandler(tableHandler);
+            employeeTable.addHandler(editTableHandler);
             break;
         }
 

@@ -86,17 +86,17 @@ tbody tr:hover {
     /* font-size: ; */
 }
 
-.radio-control{
+.radio-control {
     border-radius: .5rem;
     /* padding: 1rem; */
     border: 1px solid black;
 }
 
-.radio-control:first-child{
+.radio-control:first-child {
     margin-right: .2rem;
 }
 
-.radio-control:last-child{
+.radio-control:last-child {
     margin-left: .2rem;
 }
 
@@ -113,10 +113,6 @@ tbody tr:hover {
     margin: .5rem auto;
     justify-content: center;
 }
-
-/* .edit-control>div {
-    margin-bottom: 2vh;
-} */
 
 .form-control *,
 .edit-control .edit-required {
@@ -142,18 +138,19 @@ tbody tr:hover {
     color: white;
 }
 
-.radio-control label{
+.radio-control label {
     width: 100%;
-    color:#FF6200
+    color: #FF6200;
+    display: block;
 }
 
 /* --------- */
-#salary-id::-webkit-inner-spin-button {
+#salary-id::-webkit-inner-spin-button,
+#edit-salary-id::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 
 .date-group,
-/* .radio-group, */
 .select-group,
 .number-group,
 .input-group,
@@ -164,11 +161,6 @@ tbody tr:hover {
     padding: 1rem;
     border-radius: .5rem;
 }
-
-/* .edit-section {
-    padding: 1rem;
-    border-radius: .5rem;
-} */
 
 .edit-section div {
     background-color: black;
@@ -182,6 +174,8 @@ tbody tr:hover {
     position: relative;
 }
 
+#edit-name-id,
+#edit-salary-id,
 #salary-id,
 #date-id,
 #name-id {
@@ -208,6 +202,8 @@ tbody tr:hover {
     transition: 0.3s ease-in-out;
 }
 
+#edit-salary-id:focus,
+#edit-name-id:focus,
 #date-id:focus,
 #salary-id:focus,
 #name-id:focus {
@@ -219,7 +215,11 @@ tbody tr:hover {
 #salary-id:focus~label,
 #salary-id:valid~label,
 #name-id:focus~label,
-#name-id:valid~label {
+#name-id:valid~label,
+#edit-salary-id:focus~label,
+#edit-salary-id:valid~label,
+#edit-name-id:focus~label,
+#edit-name-id:valid~label {
     top: -12px;
     font-size: 75%;
 }
@@ -267,6 +267,10 @@ tbody tr:hover {
 
 .submitBtn:hover {
     background-color: yellow;
+}
+
+#employees-select{
+    display: none;
 }
 
 @media screen and (max-width: 1100px) {

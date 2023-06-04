@@ -30,18 +30,18 @@ export default class SubmitForm {
         parentElement.innerHTML += `<form class="edit-control" id="${parentId}-form-id" autocomplete="off">
             <div class="edit-section">
                 <div class="edit-name">
-                    <input type="text" name="name" id="name-id" class="edit-required" required>
+                    <input type="text" name="name" id="edit-name-id" class="edit-required" required>
                     <label for="name-id">Name</label>
                 </div>
                 <div class="edit-department">
                     <label for="dep"></label>
-                    <select id="dep" name="department" class="edit-required" required>
+                    <select id="edit-department-id" name="department" class="edit-required" required>
                         <option value="" hidden>Select department</option>
                         ${this.#params.departments.map(dep => `<option value="${dep}">${dep}</option>`).join('')}
                     </select>
                 </div>
                 <div class="edit-salary">
-                    <input type="number" name="salary" id="salary-id" placeholder="" min=${this.#params.minSalary * 1000} max=${this.#params.maxSalary * 1000} class="edit-required" required>
+                    <input type="number" name="salary" id="edit-salary-id" placeholder="" min=${this.#params.minSalary * 1000} max=${this.#params.maxSalary * 1000} class="edit-required" required>
                     <label for="salary-id">Salary</label>
                 </div>
             </div>
@@ -70,12 +70,11 @@ export default class SubmitForm {
         this.#formElement = document.getElementById(`${parentId}-form-id`);
     }
 
-    addHandler(deleteFn, editFn, getEmplFn) {
+    addHandler(deleteFn, editFn) {
         this.#formElement.onsubmit = async (event) => {
             event.preventDefault();
 
             if (document.getElementById(editRadio).checked) {
-                // const empl = getEmplFn(this.#selectedId);
                 const formData = new FormData(this.#formElement);
                 this.#dataObj.name = formData.get('name');
                 this.#dataObj.department = formData.get('department');
@@ -97,6 +96,12 @@ export default class SubmitForm {
         this.#selectedRow = nRow;
         this.#selectedId = id;
         this.#selectedEmployee = empl;
+    }
+
+    fillParams(){
+        document.getElementById('edit-salary-id').value = this.#selectedEmployee.salary;
+        document.getElementById('edit-department-id').value = this.#selectedEmployee.department;
+        document.getElementById('edit-name-id').value = this.#selectedEmployee.name;
     }
 
     show() {
