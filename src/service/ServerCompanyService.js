@@ -2,8 +2,17 @@ const URL = 'http://localhost:3500/employees'
 
 import { count } from "../util/number-functions.js";
 
-export default class CompanyService {
+export default class ServerCompanyService {
 
+    #emplsCache;
+    #refreshCallbackFn;
+    #intervalID;
+
+    constructor(callbackFn, timeout) {
+        this.#emplsCache = {};
+        this.#refreshCallbackFn = callbackFn;
+        this.#intervalID = setInterval(this.#poller.bind(this), timeout);
+    }
 
     async addEmployee(employee) {
         const response = await fetch(URL, {
@@ -12,6 +21,7 @@ export default class CompanyService {
             body: JSON.stringify(employee)
         })
         const addedEmployee = await response.json();
+        this.#emplsCache = await this.getAllEmployees();
         return addedEmployee;
     }
 
@@ -21,16 +31,18 @@ export default class CompanyService {
             headers: { "Content-Type": "application/json" },
         })
         const removedEmployee = await response.json();
+        this.#emplsCache = await this.getAllEmployees();
         return removedEmployee;
     }
 
     async editEmployee(employee) {
         const response = await fetch(`${URL}/${employee.id}`, {
             method: 'PUT',
-            headers: {"Content-Type": "application/json"},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(employee)
         })
         const editedEmployee = await response.json();
+        this.#emplsCache = await this.getAllEmployees();
         return editedEmployee;
     }
 
@@ -62,4 +74,13 @@ export default class CompanyService {
         const allEmployees = await response.json();
         return allEmployees;
     }
+
+    async #poller() {
+        const allEmployees = await this.getAllEmployees();
+        if (JSON.stringify(allEmployees) != JSON.stringify(this.#emplsCache)) {
+            this.#refreshCallbackFn(allEmployees);
+            this.#emplsCache = allEmployees;
+        }
+    }
+
 }

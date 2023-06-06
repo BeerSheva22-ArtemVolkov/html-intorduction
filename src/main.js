@@ -13,6 +13,7 @@ import Spinner from "./ui/Spinner.js";
 const spinner = new Spinner("menu-place");
 
 const N_EMPLOYEES = 5;
+const TIMEOUT = 10000;
 
 const sections = [
     { title: "Employees", id: "employees-place" },
@@ -42,7 +43,7 @@ const { minSalary, maxSalary, departments, minYear, maxYear } = employeesConfig;
 const { age, salary } = statisticsConfig;
 
 const menu = new ApplicationBar("menu-place", sections, menuHandler);
-const serverCompanyService = new ServerCompanyService();
+const serverCompanyService = new ServerCompanyService(companyServiceHandler, TIMEOUT);
 const employeeForm = new EmployeeForm("employees-form-place", employeesConfig);
 const sumbitForm = new SubmitForm("employees-select", employeesConfig);
 const employeeTable = new DataGrid("employees-table-place", employeeColumns);
@@ -72,7 +73,6 @@ async function editTableHandler(nRow) {
         sumbitForm.hide();
     }
     
-   
 }
 
 async function menuHandler(index) {
@@ -98,16 +98,42 @@ async function menuHandler(index) {
 
 }
 
+async function companyServiceHandler(employees){
+
+    const index = menu.getActiveIndex();
+
+    switch (index) {
+        case employeesIndex: {
+            employeeTable.fillData(employees);
+            break;
+        }
+
+        case statistcsIndex: {
+            const ageStatisticData = await action(await serverCompanyService.getStatistics
+                .bind(serverCompanyService, age.filed, age.interval));
+            ageStatisticTable.fillData(ageStatisticData);
+
+            const salaryStatisticData = await action(await serverCompanyService.getStatistics
+                .bind(serverCompanyService, salary.filed, salary.interval));
+            salaryStatisticTable.fillData(salaryStatisticData);
+        }
+    }
+}
+
 async function action(serviceFn) {
     spinner.start();
-    const res = await serviceFn();
-    spinner.stop();
-    return res;
+    try {
+        const res = await serviceFn();
+        return res;
+    } catch (error) {
+        alert(error.code ? 'server responded with ' + code : 'server is unavailable')
+    } finally {
+        spinner.stop();
+    }
 }
 
 async function restoreEmployees(){
     const employees = await serverCompanyService.getAllEmployees();
 }
 
-// action(generateEmployees);
 action(restoreEmployees);

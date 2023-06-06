@@ -220,7 +220,7 @@ tbody tr:hover {
 #edit-salary-id:valid~label,
 #edit-name-id:focus~label,
 #edit-name-id:valid~label {
-    top: -12px;
+    top: -2vh;
     font-size: 75%;
 }
 

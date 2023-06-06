@@ -31,10 +31,10 @@ export default class SubmitForm {
             <div class="edit-section">
                 <div class="edit-name">
                     <input type="text" name="name" id="edit-name-id" class="edit-required" required>
-                    <label for="name-id">Name</label>
+                    <label for="edit-name-id">Name</label>
                 </div>
                 <div class="edit-department">
-                    <label for="dep"></label>
+                    <label for="edit-department"></label>
                     <select id="edit-department-id" name="department" class="edit-required" required>
                         <option value="" hidden>Select department</option>
                         ${this.#params.departments.map(dep => `<option value="${dep}">${dep}</option>`).join('')}
@@ -42,7 +42,7 @@ export default class SubmitForm {
                 </div>
                 <div class="edit-salary">
                     <input type="number" name="salary" id="edit-salary-id" placeholder="" min=${this.#params.minSalary * 1000} max=${this.#params.maxSalary * 1000} class="edit-required" required>
-                    <label for="salary-id">Salary</label>
+                    <label for="edit-salary-id">Salary</label>
                 </div>
             </div>
             <div class="choose-section">

@@ -94,6 +94,7 @@ export default class EmployeeForm {
             this.#dataObj.salary = formData.get('salary');
             this.#dataObj.birthYear = new Date(formData.get('birthday')).getFullYear();
             await submitFn(this.#dataObj)
+            this.#formElement.reset();
         };
     }
 }

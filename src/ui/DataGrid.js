@@ -60,6 +60,7 @@ export default class DataGrid {
 
     deleteRow(nRow) {
         this.#tBodyElement.deleteRow(nRow);
+        this.#selectedRow = undefined;
     }
 
     editRow(obj, nRow){
